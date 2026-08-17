@@ -1,6 +1,8 @@
 :root {
   --ink: #111827;
   --blue: #2563eb;
+  --blue-soft: #bfdbfe;
+  --blue-pale: #dbeafe;
   --mint: #d1fae5;
   --sand: #f9fafb;
   --white: #ffffff;
@@ -40,7 +42,7 @@ a {
   margin: 0 0 0.75rem;
   text-transform: uppercase;
   letter-spacing: 0.14em;
-  color: #bfdbfe;
+  color: var(--blue-soft);
   font-size: 0.8rem;
 }
 
@@ -60,7 +62,7 @@ h3 {
 .lede {
   max-width: 40rem;
   font-size: 1.125rem;
-  color: #dbeafe;
+  color: var(--blue-pale);
 }
 
 .nav {
