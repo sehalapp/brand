@@ -210,13 +210,23 @@ Sans' cap height is `0.700 em`.
 **not on any CDN** — it ships from Bloom Type's release, so the font file must be vendored
 alongside the product, not linked.
 
-**The wordmark is Vend Sans, tightened.** "Sehal" in the logo is set in Vend Sans at
-roughly **Medium 500** with slightly negative tracking, then converted to outlines. Measured
-against the artwork at a matched cap height of 627, Vend Sans 500 is within **0.2 %** of the
-drawn width; the letterforms coincide and only the letterspacing differs.
+**The wordmark is set in Manrope**, not in the display face. The exact settings from the
+master artwork:
 
-Set live it will not reproduce — the tracking and the outline conversion are part of the
-artwork. **Use the file**, and never letterspace it to fill a box.
+| Setting | Value |
+|---|---|
+| Family | **Manrope** |
+| Style | **ExtraBold** (800) |
+| Size | 860 pt |
+| Leading | 1032 pt |
+| Tracking | **−37** |
+
+It is then **converted to outlines**, and the outlines are the logo.
+
+> ⚠️ **Do not rebuild it by re-setting the type.** Manrope ships in several builds and they
+> do not agree: re-setting these exact values using the Google Fonts variable build renders
+> roughly 10 % wider than the artwork. The settings above document what was used; they are
+> not a recipe for regenerating it. **Use the file.**
 
 ### 4.1 Scale — ratio 1.25
 

@@ -39,9 +39,9 @@ There is deliberately no `package.json` and no build step. The brand facts are s
 - **Never hand-edit `assets/*.svg`.** They are generated from the masters in
   `design/assets/{icon,logo-light,logo-dark}.svg` and recoloured to the brand palette on
   the way out. Change the master, then re-emit.
-- The wordmark is **artwork, not type**. It is Vend Sans ~500 with tighter tracking,
-  converted to outlines — close enough that re-setting it looks nearly right and is not.
-  Never rebuild it by setting the word in a font.
+- The wordmark is **artwork, not type**. It was set in Manrope ExtraBold at 860 pt,
+  tracking −37, then outlined (`BRAND.md` §4). Manrope's builds differ enough that
+  re-setting those values does not reproduce it — never rebuild it from the font.
 - `index.html` must stay self-contained — fonts base64-inlined, geometry inline SVG, no
   external requests. It is a complete document (doctype, `<head>`, `<body>`) because
   GitHub Pages serves it directly; without the doctype browsers fall into quirks mode,
