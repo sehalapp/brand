@@ -1,0 +1,9 @@
+.DS_Store
+.cache
+
+# Internal working material. This repository is PUBLIC and its GitHub Pages site
+# is the customer-facing brand guideline, so anything that discusses unshipped
+# decisions, code paths, or the previous identity stays out of it.
+internal/
+.claude/
+.playwright-mcp/
