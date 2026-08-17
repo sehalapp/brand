@@ -553,7 +553,7 @@ footer svg{height:24px; width:auto}
     </div>
 
     <div class="grid g3">
-      <div class="card"><h4>The tile becomes the canvas</h4><p>The icon is the mark's own tile run to all four edges, with the <b>S knocked through to a solid colour</b> rather than left open. An app icon has no ground behind it to show through, so the counter must be filled explicitly &#8212; <span class="mono">var(--c-dark)</span> by default.</p></div>
+      <div class="card"><h4>The tile becomes the canvas</h4><p>The icon is the mark's own tile run to all four edges, with the <b>S knocked through to a solid colour</b> rather than left open. An app icon has no ground behind it to show through, so the counter must be filled explicitly &#8212; the darkest ink by default.</p></div>
       <div class="card"><h4>Ship it square</h4><p>The artwork carries <b>no corner radius</b>. iOS applies its own 22.37 % squircle and Android its adaptive mask; baking the mark's 15 % radius in as well would round an already-rounded shape.</p></div>
       <div class="card"><h4>The S crosses the Android safe circle</h4><p>Its strokes run corner to corner, so a round mask trims their tips &#8212; checked, and the S still reads (see &ldquo;Android round&rdquo; above). Nothing load-bearing sits in the trimmed area, but <b>re-check any new mask shape</b> rather than assuming.</p></div>
     </div>
@@ -663,8 +663,7 @@ footer svg{height:24px; width:auto}
             <button class="btn btn-d" type="button">Delete</button>
           </div>
           <p>One primary per view. Radius 10 px, weight 600, 44 px minimum touch target.
-          Primary is <span class="mono">var(--c-accent)</span> with <span class="mono">var(--c-dark)</span>
-          ink &#8212; the same pairing in both themes, because the brand colour does not shift.</p>
+          Primary is the accent with the darkest ink &#8212; the same pairing in both themes, because the brand colour does not shift.</p>
         </div>
         <div class="card">
           <h4 style="margin-bottom:.75rem">Shape scale</h4>
@@ -916,12 +915,20 @@ footer svg{height:24px; width:auto}
     {id:'grove',  name:'Grove',           note:'Forest greens on cream. Warmer, more agricultural.',
      accent:'#6A994E', dark:'#1A2A1C', deep:'#2A4030', mid:'#5A6B52', light:'#F2E8CF',
      danger:'#BC4749', warn:'#D68C24'},
+    {id:'grove2', name:'Grove \u2014 Contrast Corrected',
+     note:'Grove with the dark end deepened and the muted ink darkened. Every required pair clears 5.6:1 or better; the cream ground and the hues are unchanged.',
+     accent:'#79AB5A', dark:'#080D08', deep:'#1C2B20', mid:'#3F4B3A', light:'#F2E8CF',
+     inkWant:5.5, danger:'#BC4749', warn:'#D68C24'},
     {id:'harbour',name:'Harbour',         note:'Navy and sea green. The most corporate of the set.',
      accent:'#00814A', dark:'#041630', deep:'#0E2547', mid:'#27364C', light:'#F2F4F7',
      danger:'#C0392B', warn:'#D98C1F'},
     {id:'citron', name:'Citron',          note:'Deep green into lime. High-energy, hardest to keep quiet.',
      accent:'#90B800', dark:'#052E00', deep:'#0C3F04', mid:'#3F5C2A', light:'#F7F9EC',
      danger:'#C43D2E', warn:'#E1E100'},
+    {id:'citron2',name:'Citron \u2014 Contrast Corrected',
+     note:'Citron with a near-black green ground and a slightly stronger lime. Required pairs clear 5.7:1 or better, against 4.50:1 at its tightest before.',
+     accent:'#A0CC00', dark:'#031A00', deep:'#0A3503', mid:'#3A5426', light:'#F7F9EC',
+     inkWant:5.5, danger:'#C43D2E', warn:'#E1E100'},
     {id:'graphite',name:'Graphite & Jade',note:'Neutral graphite, one cool jade accent. Quietest option.',
      accent:'#12B886', dark:'#0B0D0F', deep:'#16191D', mid:'#4E555E', light:'#F7F8F9',
      danger:'#D6455D', warn:'#D99A21'},
@@ -938,7 +945,7 @@ footer svg{height:24px; width:auto}
     d['--c-dark']=p.dark; d['--c-deep']=p.deep; d['--c-mid']=p.mid;
     d['--c-light']=p.light; d['--c-paper']=p.paper||mix(p.light,'#FFFFFF',0.7);
     d['--c-accent-hover']=mix(p.accent,p.dark,0.14);
-    d['--c-accent-ink']=toward(p.accent,p.light,p.dark,4.5);   /* readable on light */
+    d['--c-accent-ink']=toward(p.accent,p.light,p.dark,p.inkWant||4.5); /* readable on light */
     d['--c-accent-lift']=toward(p.accent,p.dark,'#FFFFFF',4.5);/* readable on dark  */
     d['--c-on-accent']=cr(p.dark,p.accent)>=cr(p.light,p.accent)?p.dark:p.light;
     var ramp={100:0.03,200:0.10,300:0.22,400:0.46,450:0.55,500:0.62,700:0.84,800:0.92};
