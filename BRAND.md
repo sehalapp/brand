@@ -56,7 +56,7 @@ The artwork is final. Refinement is geometric only; do not redesign the idea.
 | Tile | `682.5 × 682.5` — square |
 | Corner radius | `102.32` — **15 % of the tile** |
 | Counter (the S) | **open** — cut out, takes the ground colour |
-| Colours in the artwork | **one** — Sehal Green |
+| Colours in the artwork | **one** — the accent |
 | Wordmark cap height | `627` |
 | Mark height | `1.089 × cap height` |
 | Mark → wordmark gap | `127.55` (`0.187 × mark height`) |
@@ -89,9 +89,9 @@ All in [`assets/`](./assets/), generated from the masters in
 
 ### 2.3 Colour of the mark
 
-The tile is **Sehal Green `#2FBF71`** on every ground. It does not invert and does not
-shift between themes. The wordmark is the only part that flips: **Slate 900 `#0F172A`** on
-light grounds, **Slate 50 `#F8FAFC`** on dark.
+The tile is the **accent `#79AB5A`** on every ground. It does not invert and does not
+shift between themes. The wordmark is the only part that flips: **Ink `#1C2B20`** on
+light grounds, **Ground `#F2E8CF`** on dark.
 
 In single-ink contexts the whole lockup is one colour and the counter still reads, because
 it is a hole rather than a second ink.
@@ -115,10 +115,10 @@ Below 28 px the cut counter closes up and the tile reads as a plain green square
 
 1. **Never place the mark on green.** The counter fills in and the S disappears entirely.
 2. **Never place it on a mid-tone, a gradient or a photograph.** The open counter needs a
-   flat plate to read against — use Slate 950 or Slate 50.
+   flat plate to read against — use Ink darkest or Ground.
 3. Don't fill the counter to "fix" a bad ground. The only artwork with a filled counter is
    the app icon, where there is no ground at all.
-4. Don't recolour the tile. Sehal Green, or one ink colour.
+4. Don't recolour the tile. The accent, or one ink colour.
 5. Don't stretch, squash, skew or rotate. Scale proportionally only.
 6. Don't add shadow, glow, bevel, outline, gradient or any 3D treatment.
 7. Don't re-typeset the wordmark or rebuild the lockup by hand — see §4.
@@ -127,62 +127,64 @@ Below 28 px the cut counter closes up and the tile reads as a plain green square
 
 ## 3. Colour
 
-Six brand colours. One of them is green; the other five are the room it stands in.
-
 ### 3.1 Brand palette
+
+Six colours. One is the accent; the other five are the room it stands in.
 
 | Role | Hex | Job |
 |---|---|---|
-| **Sehal Green** | `#2FBF71` | The only accent. Primary actions, the mark, the one thing on screen that wants to be pressed. Never two jobs on one view. |
-| **Slate 950** | `#020617` | Primary dark ground — app icon, hero, presentation, business card. Also the ink that sits *on* green. |
-| **Slate 900** | `#0F172A` | Primary ink on light grounds; raised surface on dark grounds. |
-| **Slate 600** | `#475569` | Secondary text on light. Labels, captions, metadata. |
-| **Slate 50** | `#F8FAFC` | Light ground, and the ink on dark grounds. |
-| **White** | `#FFFFFF` | Cards and sheets raised off Slate 50. Not a page ground. |
+| **Accent** | `#79AB5A` | The only accent. Primary actions, the mark, the one thing on screen that wants to be pressed. Never two jobs on one view. |
+| **Ink darkest** | `#080D08` | Primary dark ground — app icon, hero, presentation, business card. Also the ink that sits *on* the accent. |
+| **Ink** | `#1C2B20` | Primary ink on light grounds; raised surface on dark grounds. |
+| **Ink muted** | `#3F4B3A` | Secondary text on light. Labels, captions, metadata. |
+| **Ground** | `#F2E8CF` | Light page ground, and the ink on dark grounds. |
+| **Paper** | `#FBF8F1` | Cards and sheets raised off the ground. Not a page ground. |
 
-**Slate + Green is the signature combination.** Prefer dark slate grounds with the green
-mark. On green grounds, text and marks are **Slate 950 — never white**.
+Prefer dark grounds with the accent mark. On accent grounds, ink is **Ink darkest —
+never paper**.
 
-### 3.2 Required derivative — Green 700
+### 3.2 Required derivative — Accent ink
 
-`#2FBF71` fails as text on every light ground. Light mode still needs a green for links,
-active tab labels and inline emphasis, so the system defines exactly one derived tint:
+The accent fails as text on the light ground (2.21:1). Light mode still needs a green for
+links, active tab labels and inline emphasis, so the system defines exactly one derived tint:
 
 | Token | Hex | Derivation | Measured |
 |---|---|---|---|
-| **Green 700** | `#1A7F4F` | Same hue (147.5°) and saturation as Sehal Green, lightness 0.467 → 0.32 | **4.79:1** on Slate 50 · **5.01:1** on White |
+| **Accent ink** | `#456234` | The accent darkened toward Ink darkest until it clears 5.5:1 on Ground | **5.65:1** on Ground |
 
-It is **text-only**. Fills, the mark and the app icon stay `#2FBF71` in both modes, so the
-brand colour never shifts. On dark grounds, green text is `#2FBF71` itself (8.46:1), or
-`#5FD693` (11.07:1) where it sits inside a busy card.
+It is **text-only**. Fills, the mark and the app icon stay `#79AB5A` in both modes, so the
+brand colour never shifts. On dark grounds no derivative is needed — the accent itself
+clears on Ink darkest (7.27:1).
 
 ### 3.3 Interface scale
 
-Not brand colours — the intermediate slates the UI needs for borders, disabled states and
-dark surfaces. Extend here; never by inventing a new hue.
+Not brand colours — the intermediate neutrals the UI needs for borders, disabled states
+and raised surfaces. Every step is Ground mixed toward Ink darkest, so the ramp re-derives
+from the two anchors and never drifts off-hue. Extend here; never by inventing a new hue.
 
-`50 #F8FAFC` · `100 #F1F5F9` · `200 #E2E8F0` · `300 #CBD5E1` · `400 #94A3B8` ·
-`500 #64748B` · `600 #475569` · `700 #334155` · `800 #1E293B` · `900 #0F172A` ·
-`950 #020617`
+`100 #EBE1C9` · `200 #DBD2BB` · `300 #BFB8A3` · `400 #868373` ·
+`450 #717062` · `500 #616054` · `700 #2D3028` · `800 #1B1F18`
 
 ### 3.4 Measured pairings
 
-WCAG 2.1, computed **2026-08-16**. Body text must clear 4.5:1; text at 24 px+ or 19 px
+WCAG 2.1, computed **2026-08-18**. Body text must clear 4.5:1; text at 24 px+ or 19 px
 bold must clear 3:1.
 
 | Foreground | Ground | Ratio | |
 |---|---|---|---|
-| Slate 950 `#020617` | Sehal Green | **8.46:1** | ✅ use this on green |
-| Slate 900 `#0F172A` | Sehal Green | **7.49:1** | ✅ |
-| White `#FFFFFF` | Sehal Green | **2.38:1** | ❌ never white on green |
-| Sehal Green | White | **2.38:1** | ❌ green is not a light-mode text colour |
-| Sehal Green | Slate 50 | **2.28:1** | ❌ |
-| Sehal Green | Slate 950 | **8.46:1** | ✅ green text is a dark-mode privilege |
-| Sehal Green | Slate 900 | **7.49:1** | ✅ |
-| Slate 900 | Slate 50 | **17.06:1** | ✅ |
-| Slate 600 | Slate 50 | **7.24:1** | ✅ |
-| Slate 50 | Slate 900 | **17.06:1** | ✅ |
-| Green 700 `#1A7F4F` | Slate 50 | **4.79:1** | ✅ |
+| Ink darkest `#080D08` | Accent | **7.27:1** | ✅ — this is the ink on green |
+| Ink `#1C2B20` | Accent | **5.50:1** | ✅ |
+| Paper `#FBF8F1` | Accent | **2.54:1** | ❌ — never paper on green |
+| Ground `#F2E8CF` | Accent | **2.21:1** | ❌ |
+| Accent | Paper | **2.54:1** | ❌ — the accent is not a light-mode text colour |
+| Accent | Ground | **2.21:1** | ❌ — use Accent ink |
+| Accent | Ink darkest | **7.27:1** | ✅ — green text is a dark-mode privilege |
+| Accent | Ink | **5.50:1** | ✅ |
+| Accent ink `#456234` | Ground | **5.65:1** | ✅ |
+| Ink | Ground | **12.16:1** | ✅ |
+| Ink muted `#3F4B3A` | Ground | **7.56:1** | ✅ |
+| Ground | Ink | **12.16:1** | ✅ |
+| Ground | Ink darkest | **16.07:1** | ✅ |
 
 ---
 
@@ -311,8 +313,8 @@ Scale the tile; never re-draw it.
 
 | Density | `L` | Fill | Use |
 |---|---|---|---|
-| **Coarse** | 100 | Sehal Green | Covers, slide backs, the border band |
-| **Medium** | 55 | Slate 700 | Texture on a Slate 900 surface |
+| **Coarse** | 100 | Accent | Covers, slide backs, the border band |
+| **Medium** | 55 | Neutral 700 | Texture on an Ink surface |
 | **Fine** | 30 | Green @ 55 % | Edges, card corners |
 | **Backdrop** | 120 | Green @ 11 % | Behind headlines only, or the empty half of a layout |
 

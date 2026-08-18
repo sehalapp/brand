@@ -38,7 +38,14 @@ There is deliberately no `package.json` and no build step. The brand facts are s
   measurements (contrast ratios, sizes) next to the rule they justify, and date them.
 - **Never hand-edit `assets/*.svg`.** They are generated from the masters in
   `design/assets/{icon,logo-light,logo-dark}.svg` and recoloured to the brand palette on
-  the way out. Change the master, then re-emit.
+  the way out. Change the master, then re-emit. The only sanctioned edit in place is the
+  recolour step itself: when the palette in `BRAND.md` §3.1 changes, remap every anchor
+  across all exports in one pass so the vectors never contradict the spec.
+- `index.html` derives everything from **five anchors** (accent, ink darkest, ink, ink
+  muted, ground). The neutral ramp, both accent variants, the on-accent ink and every
+  contrast number are computed at runtime, so §04 can never show a stale ratio. The
+  static `:root` block is the no-JS fallback &#8212; keep it in step with the built-in
+  palette. Downloadable assets in §14 are built from the same live tokens.
 - The wordmark is **artwork, not type**. It was set in Manrope ExtraBold at 860 pt,
   tracking −37, then outlined (`BRAND.md` §4). Manrope's builds differ enough that
   re-setting those values does not reproduce it — never rebuild it from the font.
