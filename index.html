@@ -417,48 +417,12 @@ footer svg{height:24px; width:auto}
                    linear-gradient(135deg,currentColor 50%,transparent 50%);
   background-position:calc(100% - 1.05rem) 55%, calc(100% - .8rem) 55%;
   background-size:5px 5px,5px 5px; background-repeat:no-repeat}
-.swatch-dots{display:flex; gap:3px; padding-left:.35rem}
-.swatch-dots i{width:11px; height:11px; border-radius:50%; display:block}
-.ctl-sep{width:1px; align-self:stretch; background:var(--line-2)}
 @media (max-width:560px){ .controls{right:.5rem; bottom:.5rem} #pal{max-width:9rem} }
 
 .dl{font-family:var(--f-ui); font-weight:600; font-size:.75rem; line-height:1;
   padding:.4rem .7rem; margin-right:.35rem; border-radius:var(--r-sm);
   border:1px solid var(--line-2); background:var(--surface); color:var(--ink); cursor:pointer}
 .dl:hover{border-color:var(--green-text); color:var(--green-text)}
-
-/* ============ PALETTE EDITOR ============ */
-.ctl-icon{padding:.55rem .7rem}
-.ctl-primary{background:var(--green); color:var(--on-green); border-color:var(--green)}
-.ctl-primary:hover{background:var(--c-accent-hover); border-color:var(--c-accent-hover); color:var(--on-green)}
-.pal-editor{position:fixed; right:1rem; bottom:4.6rem; z-index:41; width:min(340px,calc(100vw - 2rem));
-  background:var(--surface); border:1px solid var(--line-2); border-radius:var(--r);
-  padding:1rem; display:flex; flex-direction:column; gap:.6rem}
-.pal-editor[hidden]{display:none}
-.pe-head{display:flex; align-items:center; justify-content:space-between; gap:1rem}
-.pe-head strong{font-family:var(--f-brand); font-size:.9375rem; letter-spacing:-.015em}
-.pe-row{display:flex; align-items:center; justify-content:space-between; gap:.75rem;
-  font-size:.8125rem; color:var(--ink-2)}
-.pe-row span i{display:block; font-style:normal; font-size:.6875rem; color:var(--ink-3)}
-.pe-name input{flex:1; min-width:0}
-.pe-row input[type=text]{width:6.2rem; font-size:.75rem; padding:.4rem .5rem;
-  border-radius:var(--r-sm); border:1px solid var(--line-2);
-  background:var(--surface-2); color:var(--ink)}
-.pe-name input[type=text]{width:auto}
-.pe-inputs{display:flex; gap:.4rem; align-items:center; flex:none}
-.pe-row input[type=color]{width:2rem; height:2rem; padding:0; border:1px solid var(--line-2);
-  border-radius:var(--r-sm); background:none; cursor:pointer}
-.pe-note{font-size:.6875rem; color:var(--ink-3); line-height:1.5}
-.pe-actions{display:flex; gap:.5rem}
-.pe-actions .ctl{border-color:var(--line-2)}
-#pe-delete[hidden]{display:none}
-@media print{ .pal-editor{display:none} }
-
-/* ============ EXPLORATION BANNER ============ */
-.explore-note{display:none; align-items:center; gap:.6rem; padding:.7rem 1rem;
-  border:1px solid var(--c-warn); border-radius:var(--r-sm); margin-bottom:1.5rem;
-  font-size:.8125rem; color:var(--ink-2); background:var(--surface)}
-:root[data-palette-alt] .explore-note{display:flex}
 
 /* ============ PRINT ============ */
 @media print{ .controls{display:none} }
@@ -680,7 +644,6 @@ footer svg{height:24px; width:auto}
       <p class="sec-note">Six brand colours. One is the accent; the other five are the room it stands in.</p>
     </div>
 
-    <div class="explore-note"><span>&#9888;</span><span id="explore-note-text"></span></div>
     <div class="grid" id="sw-grid"
          style="grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); margin-bottom:2.5rem"></div>
 
@@ -1261,29 +1224,6 @@ footer svg{height:24px; width:auto}
 
 <div class="controls" role="group" aria-label="Page controls">
   <button class="ctl" id="theme-btn" type="button" aria-pressed="false">Dark</button>
-  <span class="ctl-sep" aria-hidden="true"></span>
-  <select class="ctl" id="pal" aria-label="Colour palette"></select>
-  <button class="ctl ctl-icon" id="pal-edit" type="button" aria-label="Edit this palette">Edit</button>
-  <span class="swatch-dots" id="dots" aria-hidden="true"></span>
-</div>
-
-<div class="pal-editor" id="pal-editor" hidden aria-label="Palette editor">
-  <div class="pe-head">
-    <strong id="pe-title">New palette</strong>
-    <button class="ctl" id="pe-close" type="button" aria-label="Close editor">Close</button>
-  </div>
-  <label class="pe-row pe-name">
-    <span>Name</span>
-    <input type="text" id="pe-name" maxlength="40" placeholder="My palette">
-  </label>
-  <div id="pe-fields"></div>
-  <p class="pe-note">Five anchors. Everything else &#8212; the neutral ramp, both accent
-    variants and the ink that sits on the accent &#8212; is derived, and the whole page
-    updates as you type.</p>
-  <div class="pe-actions">
-    <button class="ctl ctl-primary" id="pe-save" type="button">Save</button>
-    <button class="ctl" id="pe-delete" type="button">Delete</button>
-  </div>
 </div>
 
 <script>
@@ -1299,33 +1239,18 @@ footer svg{height:24px; width:auto}
     return target;
   };
   var round2=function(v){return Math.round(v*100)/100;};
-  var isHex=function(s){return /^#[0-9A-Fa-f]{6}$/.test(s);};
 
-  /* The five anchors every palette defines. Names and order are fixed, so a
-     custom palette is directly comparable with the brand one. */
-  var ANCHORS=[
-    {key:'accent', label:'Accent',      hint:'Primary actions and the mark'},
-    {key:'dark',   label:'Ink darkest', hint:'Dark ground; the ink that sits on the accent'},
-    {key:'deep',   label:'Ink',         hint:'Ink on light; raised surface on dark'},
-    {key:'mid',    label:'Ink muted',   hint:'Secondary text'},
-    {key:'light',  label:'Ground',      hint:'Light page ground'}
-  ];
-
-  var BUILTIN=[{
-    id:'grove', name:'Grove \u2014 Contrast Corrected', builtin:true,
-    note:'The working palette. Forest greens on cream, with the dark end deepened so every required pair clears 5.6:1.',
+  /* The five anchors the brand palette defines. Everything else \u2014 the neutral
+     ramp, both accent variants and the ink that sits on the accent \u2014 is derived. */
+  var PALETTE={
+    id:'grove', name:'Grove \u2014 Contrast Corrected',
+    note:'Forest greens on cream, with the dark end deepened so every required pair clears 5.6:1.',
     accent:'#79AB5A', dark:'#080D08', deep:'#1C2B20', mid:'#3F4B3A', light:'#F2E8CF',
     inkWant:5.5, danger:'#BC4749', warn:'#D68C24'
-  }];
+  };
 
-  var LS_LIST='sehal-custom-palettes', LS_SEL='sehal-palette', LS_THEME='sehal-theme';
+  var LS_THEME='sehal-theme';
   var root=document.documentElement;
-  function readCustom(){
-    try{var v=JSON.parse(localStorage.getItem(LS_LIST)); return Array.isArray(v)?v:[];}catch(e){return [];}
-  }
-  function writeCustom(list){ try{localStorage.setItem(LS_LIST,JSON.stringify(list));}catch(e){} }
-  function all(){ return BUILTIN.concat(readCustom()); }
-  function byId(id){ var m=all().filter(function(p){return p.id===id;}); return m[0]||BUILTIN[0]; }
 
   function derive(p){
     var d={};
@@ -1514,121 +1439,17 @@ footer svg{height:24px; width:auto}
       '</b>. On dark grounds the accent itself passes at <b class="mono">'+
       ratio(d['--c-accent'],d['--c-dark'])+'</b>.';
 
-    document.getElementById('dots').innerHTML=[d['--c-accent'],d['--c-dark'],d['--c-mid'],d['--c-light']]
-      .map(function(c){return '<i style="background:'+c+'"></i>';}).join('');
-
     renderAssets(p,d);
-
-    var n=document.getElementById('explore-note-text');
-    if(n) n.textContent=p.name+(p.note?' \u2014 '+p.note:'')+
-      (p.builtin?'':' This is a saved custom palette, not the specified one.');
   }
 
-  var current=null;
   function apply(p){
-    current=p;
     var d=derive(p);
     for(var k in d) root.style.setProperty(k,d[k]);
-    if(p.builtin) root.removeAttribute('data-palette-alt'); else root.setAttribute('data-palette-alt',p.id);
     render(p,d);
   }
 
-  /* ---------- select ---------- */
-  var sel=document.getElementById('pal');
-  function buildSelect(activeId){
-    var custom=readCustom();
-    var html='<optgroup label="Brand">'+BUILTIN.map(function(p){
-      return '<option value="'+p.id+'">'+p.name+'</option>';}).join('')+'</optgroup>';
-    if(custom.length) html+='<optgroup label="Saved">'+custom.map(function(p){
-      return '<option value="'+p.id+'">'+p.name.replace(/</g,'&lt;')+'</option>';}).join('')+'</optgroup>';
-    html+='<optgroup label="&nbsp;"><option value="__new">+ New palette&#8230;</option></optgroup>';
-    sel.innerHTML=html;
-    sel.value=activeId;
-  }
-
-  /* ---------- editor ---------- */
-  var ed=document.getElementById('pal-editor');
-  var draft=null, editingId=null;
-  function fields(){
-    document.getElementById('pe-fields').innerHTML=ANCHORS.map(function(a){
-      return '<label class="pe-row"><span>'+a.label+'<i>'+a.hint+'</i></span>'+
-        '<span class="pe-inputs"><input type="color" data-k="'+a.key+'" aria-label="'+a.label+' colour">'+
-        '<input type="text" class="mono" data-t="'+a.key+'" maxlength="7" spellcheck="false"></span></label>';
-    }).join('');
-    document.getElementById('pe-fields').addEventListener('input',onEdit);
-  }
-  function fillFields(p){
-    ANCHORS.forEach(function(a){
-      ed.querySelector('[data-k="'+a.key+'"]').value=p[a.key].toLowerCase();
-      ed.querySelector('[data-t="'+a.key+'"]').value=p[a.key].toUpperCase();
-    });
-    document.getElementById('pe-name').value=p.name;
-  }
-  function onEdit(e){
-    var t=e.target, k=t.getAttribute('data-k')||t.getAttribute('data-t');
-    if(!k) return;
-    var v=t.value.trim();
-    if(t.type==='text'){ if(v[0]!=='#') v='#'+v; if(!isHex(v)) return; }
-    v=v.toUpperCase();
-    draft[k]=v;
-    ed.querySelector('[data-k="'+k+'"]').value=v.toLowerCase();
-    var tf=ed.querySelector('[data-t="'+k+'"]'); if(document.activeElement!==tf) tf.value=v;
-    apply(draft);
-  }
-  function openEditor(base, isNew){
-    draft={id:isNew?('c'+Date.now().toString(36)):base.id,
-           name:isNew?(base.name.replace(/ \u2014 .*$/,'')+' copy'):base.name,
-           accent:base.accent, dark:base.dark, deep:base.deep, mid:base.mid, light:base.light,
-           danger:base.danger, warn:base.warn};
-    editingId=isNew?null:base.id;
-    document.getElementById('pe-title').textContent=isNew?'New palette':'Edit palette';
-    document.getElementById('pe-delete').hidden = isNew || !!byId(base.id).builtin;
-    fillFields(draft);
-    ed.hidden=false;
-    apply(draft);
-    document.getElementById('pe-name').focus();
-  }
-  function closeEditor(){ ed.hidden=true; draft=null; }
-
-  document.getElementById('pe-name').addEventListener('input',function(){
-    if(draft){ draft.name=this.value||'Untitled'; render(draft,derive(draft)); }
-  });
-  document.getElementById('pe-close').addEventListener('click',function(){
-    closeEditor(); select(sel.value==='__new'?BUILTIN[0].id:sel.value);
-  });
-  document.getElementById('pe-save').addEventListener('click',function(){
-    if(!draft) return;
-    var list=readCustom();
-    draft.name=(document.getElementById('pe-name').value||'Untitled').slice(0,40);
-    var i=list.map(function(p){return p.id;}).indexOf(draft.id);
-    if(i>=0) list[i]=draft; else list.push(draft);
-    var id=draft.id;                 /* closeEditor() clears draft */
-    writeCustom(list);
-    closeEditor();
-    buildSelect(id); select(id);
-  });
-  document.getElementById('pe-delete').addEventListener('click',function(){
-    if(!draft) return;
-    var gone=draft.id;
-    writeCustom(readCustom().filter(function(p){return p.id!==gone;}));
-    closeEditor(); buildSelect(BUILTIN[0].id); select(BUILTIN[0].id);
-  });
-  document.getElementById('pal-edit').addEventListener('click',function(){
-    openEditor(current, !!current.builtin);
-  });
-
-  function select(id){
-    if(id==='__new'){ openEditor(current,true); return; }
-    var p=byId(id); sel.value=id; apply(p);
-    try{localStorage.setItem(LS_SEL,id);}catch(e){}
-  }
-  sel.addEventListener('change',function(){ select(sel.value); });
-
   /* ---------- boot ---------- */
-  fields();
-  var saved=null; try{saved=localStorage.getItem(LS_SEL);}catch(e){}
-  var startId=(saved && all().some(function(p){return p.id===saved;}))?saved:BUILTIN[0].id;
-  buildSelect(startId); select(startId);
+  apply(PALETTE);
 
   var btn=document.getElementById('theme-btn');
   function currentTheme(){
